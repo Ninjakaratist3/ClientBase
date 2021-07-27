@@ -1,3 +1,4 @@
+using ClientBase.Core.Services;
 using ClientBase.Infrastructure.Data;
 using GoodsPlan.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -24,7 +25,16 @@ namespace ClientBase
 
             services.AddDbContext<DBContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddMvc();
             services.AddRazorPages();
+
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient<IClientService, ClientService>();
+            services.AddTransient<IPropertyTypeService, PropertyTypeService>();
+            services.AddTransient<IIndustryService, IndustryService>();
+            services.AddTransient<ICountryService, CountryService>();
+            services.AddTransient<ICityService, CityService>();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -49,9 +59,6 @@ namespace ClientBase
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

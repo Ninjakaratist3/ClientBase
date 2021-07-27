@@ -1,0 +1,12 @@
+﻿@model IEnumerable<ClientViewModel>
+
+<h2>Список клиентов</h2>
+<div>
+    <a href="/client/create">Создать</a>
+</div>
+<div>
+    @foreach (var client in Model)
+    {
+        <p><a href="/client/@client.Id">@client.Name</a></p>
+    }
+</div>
