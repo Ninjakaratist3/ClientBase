@@ -17,9 +17,5 @@
     <ProjectReference Include="..\ClientBase.Core\ClientBase.Core.csproj" />
     <ProjectReference Include="..\ClientBase.Infrastructure\ClientBase.Infrastructure.csproj" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
 
 </Project>

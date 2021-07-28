@@ -1,0 +1,17 @@
+﻿@model IEnumerable<PropertyTypeViewModel>
+
+<h2>Список типов собственности</h2>
+<div>
+    <a href="/property-type/create">Создать</a>
+</div>
+<div>
+    @foreach (var propertyType in Model)
+    {
+        <div>
+            <input type="hidden" class="property-type-id" value="@propertyType.Id" />
+            <a href="/property-type/@propertyType.Id">@propertyType.Name</a>
+            <a href="/property-type/edit/@propertyType.Id">Редактировать</a>
+            <button class="property-type-delete">Удалить</button>
+        </div>
+    }
+</div>

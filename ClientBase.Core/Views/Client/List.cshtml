@@ -7,6 +7,11 @@
 <div>
     @foreach (var client in Model)
     {
-        <p><a href="/client/@client.Id">@client.Name</a></p>
+        <div>
+            <input type="hidden" class="client-id" value="@client.Id" />
+            <a href="/client/@client.Id">@client.Name</a>
+            <a href="/client/edit/@client.Id">Редактировать</a>
+            <button class="client-delete">Удалить</button>
+        </div>
     }
 </div>

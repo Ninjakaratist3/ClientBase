@@ -1,0 +1,17 @@
+﻿@model IEnumerable<CityViewModel>
+
+<h2>Список городов</h2>
+<div>
+    <a href="/city/create">Создать</a>
+</div>
+<div>
+    @foreach (var city in Model)
+    {
+        <div>
+            <input type="hidden" class="city-id" value="@city.Id" />
+            <a href="/city/@city.Id">@city.Name</a>
+            <a href="/city/edit/@city.Id">Редактировать</a>
+            <button class="city-delete">Удалить</button>
+        </div>
+    }
+</div>

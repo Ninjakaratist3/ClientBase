@@ -6,7 +6,8 @@ namespace ClientBase.Core.Services
 {
     public interface IIndustryService
     {
-        public IndustryViewModel Get(long id);
+        public Industry Get(long id);
+        public IndustryViewModel GetViewModel(long id);
         public IEnumerable<IndustryViewModel> GetAll();
         public void Create(Industry model);
         public void Update(Industry model);

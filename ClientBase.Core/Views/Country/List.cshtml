@@ -1,0 +1,17 @@
+﻿@model IEnumerable<CountryViewModel>
+
+<h2>Список стран</h2>
+<div>
+    <a href="/country/create">Создать</a>
+</div>
+<div>
+    @foreach (var country in Model)
+    {
+        <div>
+            <input type="hidden" class="country-id" value="@country.Id" />
+            <a href="/country/@country.Id">@country.Name</a>
+            <a href="/country/edit/@country.Id">Редактировать</a>
+            <button class="country-delete">Удалить</button>
+        </div>
+    }
+</div>

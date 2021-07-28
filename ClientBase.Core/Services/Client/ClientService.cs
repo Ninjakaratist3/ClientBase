@@ -1,6 +1,7 @@
 ﻿using ClientBase.Core.Models;
 using ClientBase.Core.ViewModels;
 using ClientBase.Infrastructure.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,10 +10,22 @@ namespace ClientBase.Core.Services
     public class ClientService : IClientService
     {
         private readonly IRepository<Client> _clientRepository;
+        private readonly IRepository<PropertyType> _propertyTypeRepository;
+        private readonly IRepository<City> _cityRepository;
+        private readonly IRepository<Country> _countryRepository;
+        private readonly IRepository<Industry> _industryRepository;
 
-        public ClientService(IRepository<Client> clientRepository)
+        public ClientService(IRepository<Client> clientRepository,
+            IRepository<PropertyType> propertyTypeRepository,
+            IRepository<City> cityRepository,
+            IRepository<Country> countryRepository,
+            IRepository<Industry> industryRepository)
         {
             _clientRepository = clientRepository;
+            _propertyTypeRepository = propertyTypeRepository;
+            _cityRepository = cityRepository;
+            _countryRepository = countryRepository;
+            _industryRepository = industryRepository;
         }
 
         public ClientViewModel Get(long id)
@@ -30,26 +43,61 @@ namespace ClientBase.Core.Services
             return clients;
         }
 
-        public async void Create(Client model)
+        public ClientForm GetClientForm()
+        {
+            var clientForm = new ClientForm();
+            clientForm.PropertyTypes = _propertyTypeRepository.Query().ToList();
+            clientForm.Cities = _cityRepository.Query().ToList();
+            clientForm.Countries = _countryRepository.Query().ToList();
+            clientForm.Industries = _industryRepository.Query().ToList();
+
+            return clientForm;
+        }
+
+        public ClientForm GetClientForm(long id)
+        {
+            var client = _clientRepository.Query().FirstOrDefault(c => c.Id == id);
+
+            var clientForm = new ClientForm();
+            clientForm.Id = client.Id;
+            clientForm.Name = client.Name;
+            clientForm.INN = client.INN;
+            clientForm.KPP = client.KPP;
+            clientForm.PropertyTypes = _propertyTypeRepository.Query().ToList();
+            clientForm.Cities = _cityRepository.Query().ToList();
+            clientForm.Countries = _countryRepository.Query().ToList();
+            clientForm.Industries = _industryRepository.Query().ToList();
+
+            return clientForm;
+        }
+
+        public void Create(ClientForm model)
         {
             // Validation
 
-            _clientRepository.Add(model);
-            await _clientRepository.SaveChangesAsync();
+            var client = ConvertFromClientFormToClient(model);
+            client.DateOfCreation = DateTime.Now;
+            client.DateOfChange = DateTime.Now;
+
+            _clientRepository.Add(client);
+            _clientRepository.SaveChanges();
         }
 
-        public async void Update(Client model)
+        public void Update(ClientForm model)
         {
             // Validation
 
-            _clientRepository.Update(model);
-            await _clientRepository.SaveChangesAsync();
+            var client = ConvertFromClientFormToClient(model);
+            client.DateOfChange = DateTime.Now;
+
+            _clientRepository.Update(client);
+            _clientRepository.SaveChanges();
         }
 
-        public async void Delete(long id)
+        public void Delete(long id)
         {
             _clientRepository.Delete(id);
-            await _clientRepository.SaveChangesAsync();
+            _clientRepository.SaveChanges();
         }
 
         private ClientViewModel ConvertToClientViewModel(Client model)
@@ -66,6 +114,23 @@ namespace ClientBase.Core.Services
                 Industry = model.Industry,
                 DateOfCreation = model.DateOfCreation,
                 DateOfChange = model.DateOfChange
+            };
+
+            return clientViewModel;
+        }
+
+        private Client ConvertFromClientFormToClient(ClientForm model)
+        {
+            var clientViewModel = new Client()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                INN = model.INN,
+                KPP = model.KPP,
+                PropertyType = _propertyTypeRepository.Get(model.PropertyTypeId),
+                City = _cityRepository.Get(model.CityId),
+                Country = _countryRepository.Get(model.CountryId),
+                Industry = _industryRepository.Get(model.IndustryId)
             };
 
             return clientViewModel;

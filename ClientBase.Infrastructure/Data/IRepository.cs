@@ -14,6 +14,5 @@ namespace ClientBase.Infrastructure.Data
         void Delete(long id);
         IQueryable<T> Query();
         void SaveChanges();
-        Task SaveChangesAsync();
     }
 }

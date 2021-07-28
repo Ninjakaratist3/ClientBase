@@ -1,6 +1,7 @@
 ﻿using ClientBase.Core.Models;
 using ClientBase.Core.ViewModels;
 using ClientBase.Infrastructure.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +16,14 @@ namespace ClientBase.Core.Services
             _industryRepository = industryRepository;
         }
 
-        public IndustryViewModel Get(long id)
+        public Industry Get(long id)
+        {
+            var industry = _industryRepository.Query().FirstOrDefault(i => i.Id == id);
+
+            return industry;
+        }
+
+        public IndustryViewModel GetViewModel(long id)
         {
             var industry = _industryRepository.Query().FirstOrDefault(i => i.Id == id);
 
@@ -29,26 +37,31 @@ namespace ClientBase.Core.Services
             return industries;
         }
 
-        public async void Create(Industry model)
+        public void Create(Industry model)
         {
             // Validation
+
+            model.DateOfCreation = DateTime.Now;
+            model.DateOfChange = DateTime.Now;
 
             _industryRepository.Add(model);
-            await _industryRepository.SaveChangesAsync();
+            _industryRepository.SaveChanges();
         }
 
-        public async void Update(Industry model)
+        public void Update(Industry model)
         {
             // Validation
 
+            model.DateOfChange = DateTime.Now;
+
             _industryRepository.Update(model);
-            await _industryRepository.SaveChangesAsync();
+            _industryRepository.SaveChanges();
         }
 
-        public async void Delete(long id)
+        public void Delete(long id)
         {
             _industryRepository.Delete(id);
-            await _industryRepository.SaveChangesAsync();
+            _industryRepository.SaveChanges();
         }
 
         public IndustryViewModel ConvertToIndustryViewModel(Industry model)

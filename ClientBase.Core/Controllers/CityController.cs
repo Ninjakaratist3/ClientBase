@@ -2,74 +2,75 @@
 using ClientBase.Core.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ClientBase.Core.Controllers
+namespace CityBase.Core.Controllers
 {
-    [Route("client")]
-    public class ClientController : Controller
+    [Route("city")]
+    public class CityController : Controller
     {
-        private readonly IClientService _clientService;
-        public ClientController(IClientService clientService)
+        private readonly ICityService _cityService;
+        public CityController(ICityService cityService)
         {
-            _clientService = clientService;
+            _cityService = cityService;
         }
 
-        [HttpGet("/clients")]
+        [HttpGet("/cities")]
         public IActionResult List()
         {
-            var clients = _clientService.GetAll();
+            var cities = _cityService.GetAll();
 
-            return View(clients);
+            return View(cities);
         }
 
         [HttpGet("{id}")]
         public IActionResult Details(long id)
         {
-            var client = _clientService.Get(id);
+            var city = _cityService.Get(id);
 
-            return View(client);
+            return View(city);
         }
 
         [HttpGet("create")]
         public IActionResult Create()
         {
-            var clientForm = _clientService.GetClientForm();
-            return View(clientForm);
+            var cityForm = _cityService.GetCityForm();
+
+            return View(cityForm);
         }
 
         [ValidateAntiForgeryToken]
         [HttpPost("create")]
-        public IActionResult Create(ClientForm model)
+        public IActionResult Create(CityForm model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            _clientService.Create(model);
+            _cityService.Create(model);
 
-            return Redirect("/clients");
+            return Redirect("/cities");
         }
 
         [HttpGet("edit/{id}")]
         public IActionResult Update(long id)
         {
-            var clientForm = _clientService.GetClientForm(id);
+            var cityForm = _cityService.GetCityForm(id);
 
-            return View(clientForm);
+            return View(cityForm);
         }
 
         [ValidateAntiForgeryToken]
         [HttpPost("edit/{id}")]
-        public IActionResult Update(ClientForm model)
+        public IActionResult Update(CityForm model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            _clientService.Update(model);
+            _cityService.Update(model);
 
-            return Redirect("/clients");
+            return Redirect("/cities");
         }
 
         [HttpPost("delete/{id}")]
@@ -80,9 +81,9 @@ namespace ClientBase.Core.Controllers
                 return BadRequest();
             }
 
-            _clientService.Delete(id);
+            _cityService.Delete(id);
 
-            return Redirect("/clients");
+            return Redirect("/cities");
         }
     }
 }

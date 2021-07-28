@@ -1,6 +1,7 @@
 ﻿using ClientBase.Core.Models;
 using ClientBase.Core.ViewModels;
 using ClientBase.Infrastructure.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,29 +32,56 @@ namespace ClientBase.Core.Services
             return cities;
         }
 
-        public async void Create(City model)
+        public CityForm GetCityForm()
+        {
+            var cityForm = new CityForm();
+            cityForm.Countries = _countryRepository.Query().ToList();
+
+            return cityForm;
+        }
+
+        public CityForm GetCityForm(long id)
+        {
+            var city = _cityRepository.Query().FirstOrDefault(c => c.Id == id);
+
+            var cityForm = new CityForm();
+            cityForm.Id = city.Id;
+            cityForm.Name = city.Name;
+            cityForm.Countries = _countryRepository.Query().ToList();
+
+            return cityForm;
+        }
+
+        public void Create(CityForm model)
         {
             // Validation
 
-            _cityRepository.Add(model);
-            await _cityRepository.SaveChangesAsync();
+            var city = ConvertFromCityFormToCity(model);
+            city.DateOfCreation = DateTime.Now;
+            city.DateOfChange = DateTime.Now;
+
+            _cityRepository.Add(city);
+            _cityRepository.SaveChanges();
         }
 
-        public async void Update(City model)
+        public void Update(CityForm model)
         {
             // Validation
 
-            _cityRepository.Update(model);
-            await _cityRepository.SaveChangesAsync();
+            var city = ConvertFromCityFormToCity(model);
+            city.DateOfChange = DateTime.Now;
+
+            _cityRepository.Update(city);
+            _cityRepository.SaveChanges();
         }
 
-        public async void Delete(long id)
+        public void Delete(long id)
         {
             _cityRepository.Delete(id);
-            await _cityRepository.SaveChangesAsync();
+            _cityRepository.SaveChanges();
         }
 
-        public CityViewModel ConvertToCityViewModel(City model)
+        private CityViewModel ConvertToCityViewModel(City model)
         {
             var cityViewModel = new CityViewModel()
             {
@@ -62,6 +90,18 @@ namespace ClientBase.Core.Services
                 Country = _countryRepository.Get(model.CountryId),
                 DateOfCreation = model.DateOfCreation,
                 DateOfChange = model.DateOfChange
+            };
+
+            return cityViewModel;
+        }
+
+        private City ConvertFromCityFormToCity(CityForm model)
+        {
+            var cityViewModel = new City()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                CountryId = model.CountryId
             };
 
             return cityViewModel;

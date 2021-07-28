@@ -1,0 +1,33 @@
+﻿@model ClientBase.Core.ViewModels.CityForm
+
+<div class="justify-content-center py-5">
+    <div style="max-width: 800px;">
+        <h3>Редактирование данных о городе</h3>
+        <form id="city-form" asp-controller="City" asp-action="Update">
+            <div class="form-group">
+                <label asp-for="Name" class="col-md-12 col-form-label px-0">Название</label>
+                <div class="col-md-12 px-0">
+                    <input asp-for="Name" required class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CountryId" class="col-md-12 col-form-label px-0">Страна</label>
+                <div class="col-md-12 px-0">
+                    <select asp-for="CountryId" class="form-control">
+                        @foreach (var country in Model.Countries)
+                        {
+                            <option value="@country.Id">@country.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="CountryId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="d-flex">
+                <button class="button px-4 mr-3" type="submit">Изменить</button>
+                <a href="/cities" class="pt-2 d-inline-block">Отмена</a>
+            </div>
+        </form>
+    </div>
+
+</div>

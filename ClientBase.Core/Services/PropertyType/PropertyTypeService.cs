@@ -1,6 +1,7 @@
 ﻿using ClientBase.Core.Models;
 using ClientBase.Core.ViewModels;
 using ClientBase.Infrastructure.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +16,14 @@ namespace ClientBase.Core.Services
             _propertyTypeRepository = propertyTypeRepository;
         }
 
-        public PropertyTypeViewModel Get(long id)
+        public PropertyType Get(long id)
+        {
+            var propertyType = _propertyTypeRepository.Query().FirstOrDefault(p => p.Id == id);
+
+            return propertyType;
+        }
+
+        public PropertyTypeViewModel GetViewModel(long id)
         {
             var propertyType = _propertyTypeRepository.Query().FirstOrDefault(p => p.Id == id);
 
@@ -29,26 +37,31 @@ namespace ClientBase.Core.Services
             return propertyTypes;
         }
 
-        public async void Create(PropertyType model)
+        public void Create(PropertyType model)
         {
             // Validation
+
+            model.DateOfCreation = DateTime.Now;
+            model.DateOfChange = DateTime.Now;
 
             _propertyTypeRepository.Add(model);
-            await _propertyTypeRepository.SaveChangesAsync();
+            _propertyTypeRepository.SaveChanges();
         }
 
-        public async void Update(PropertyType model)
+        public void Update(PropertyType model)
         {
             // Validation
 
+            model.DateOfChange = DateTime.Now;
+
             _propertyTypeRepository.Update(model);
-            await _propertyTypeRepository.SaveChangesAsync();
+            _propertyTypeRepository.SaveChanges();
         }
 
-        public async void Delete(long id)
+        public void Delete(long id)
         {
             _propertyTypeRepository.Delete(id);
-            await _propertyTypeRepository.SaveChangesAsync();
+             _propertyTypeRepository.SaveChanges();
         }
 
         public PropertyTypeViewModel ConvertToPropertyTypeViewModel(PropertyType model)

@@ -6,7 +6,8 @@ namespace ClientBase.Core.Services
 {
     public interface IPropertyTypeService
     {
-        public PropertyTypeViewModel Get(long id);
+        public PropertyType Get(long id);
+        public PropertyTypeViewModel GetViewModel(long id);
         public IEnumerable<PropertyTypeViewModel> GetAll();
         public void Create(PropertyType model);
         public void Update(PropertyType model);

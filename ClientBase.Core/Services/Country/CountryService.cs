@@ -1,6 +1,7 @@
 ﻿using ClientBase.Core.Models;
 using ClientBase.Core.ViewModels;
 using ClientBase.Infrastructure.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +16,14 @@ namespace ClientBase.Core.Services
             _countryRepository = countryRepository;
         }
 
-        public CountryViewModel Get(long id)
+        public Country Get(long id)
+        {
+            var country = _countryRepository.Query().FirstOrDefault(c => c.Id == id);
+
+            return country;
+        }
+
+        public CountryViewModel GetViewModel(long id)
         {
             var country = _countryRepository.Query().FirstOrDefault(c => c.Id == id);
 
@@ -29,29 +37,34 @@ namespace ClientBase.Core.Services
             return countries;
         }
 
-        public async void Create(Country model)
+        public void Create(Country model)
         {
             // Validation
+
+            model.DateOfCreation = DateTime.Now;
+            model.DateOfChange = DateTime.Now;
 
             _countryRepository.Add(model);
-            await _countryRepository.SaveChangesAsync();
+            _countryRepository.SaveChanges();
         }
 
-        public async void Update(Country model)
+        public void Update(Country model)
         {
             // Validation
 
+            model.DateOfChange = DateTime.Now;
+
             _countryRepository.Update(model);
-            await _countryRepository.SaveChangesAsync();
+            _countryRepository.SaveChanges();
         }
 
-        public async void Delete(long id)
+        public void Delete(long id)
         {
             _countryRepository.Delete(id);
-            await _countryRepository.SaveChangesAsync();
+            _countryRepository.SaveChanges();
         }
 
-        public CountryViewModel ConvertToCountryViewModel(Country model)
+        private CountryViewModel ConvertToCountryViewModel(Country model)
         {
             var countryViewModel = new CountryViewModel()
             {

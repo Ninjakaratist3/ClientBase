@@ -8,8 +8,10 @@ namespace ClientBase.Core.Services
     {
         public ClientViewModel Get(long id);
         public IEnumerable<ClientViewModel> GetAll();
-        public void Create(Client model);
-        public void Update(Client model);
+        public ClientForm GetClientForm();
+        public ClientForm GetClientForm(long id);
+        public void Create(ClientForm model);
+        public void Update(ClientForm model);
         public void Delete(long id);
     }
 }

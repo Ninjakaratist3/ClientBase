@@ -1,0 +1,17 @@
+﻿@model IEnumerable<IndustryViewModel>
+
+<h2>Список отраслей</h2>
+<div>
+    <a href="/industry/create">Создать</a>
+</div>
+<div>
+    @foreach (var industry in Model)
+    {
+        <div>
+            <input type="hidden" class="industry-id" value="@industry.Id" />
+            <a href="/industry/@industry.Id">@industry.Name</a>
+            <a href="/industry/edit/@industry.Id">Редактировать</a>
+            <button class="industry-delete">Удалить</button>
+        </div>
+    }
+</div>

@@ -52,10 +52,5 @@ namespace ClientBase.Infrastructure.Data
         {
             _context.SaveChanges();
         }
-
-        public Task SaveChangesAsync()
-        {
-            return _context.SaveChangesAsync();
-        }
     }
 }
