@@ -1,6 +1,7 @@
 ﻿using ClientBase.Core.Models;
 using ClientBase.Core.ViewModels;
 using ClientBase.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,13 @@ namespace ClientBase.Core.Services
 
         public ClientViewModel Get(long id)
         {
-            var client = _clientRepository.Query().FirstOrDefault(c => c.Id == id);
+            var client = _clientRepository
+                .Query()
+                .Include(c => c.Industry)
+                .Include(c => c.PropertyType)
+                .Include(c => c.Country)
+                .Include(c => c.City)
+                .FirstOrDefault(c => c.Id == id);
 
             return ConvertToClientViewModel(client);
         }
@@ -38,7 +45,14 @@ namespace ClientBase.Core.Services
 
         public IEnumerable<ClientViewModel> GetAll()
         {
-            var clients = _clientRepository.Query().ToList().Select(c => ConvertToClientViewModel(c));
+            var clients = _clientRepository
+                .Query()
+                .Include(c => c.Industry)
+                .Include(c => c.PropertyType)
+                .Include(c => c.Country)
+                .Include(c => c.City)
+                .ToList()
+                .Select(c => ConvertToClientViewModel(c));
 
             return clients;
         }
@@ -46,36 +60,39 @@ namespace ClientBase.Core.Services
         public ClientForm GetClientForm()
         {
             var clientForm = new ClientForm();
-            clientForm.PropertyTypes = _propertyTypeRepository.Query().ToList();
-            clientForm.Cities = _cityRepository.Query().ToList();
-            clientForm.Countries = _countryRepository.Query().ToList();
-            clientForm.Industries = _industryRepository.Query().ToList();
+            IncludeLists(clientForm);
 
             return clientForm;
         }
 
         public ClientForm GetClientForm(long id)
         {
-            var client = _clientRepository.Query().FirstOrDefault(c => c.Id == id);
+            var client = _clientRepository
+                .Query()
+                .Include(c => c.Industry)
+                .Include(c => c.PropertyType)
+                .Include(c => c.Country)
+                .Include(c => c.City)
+                .FirstOrDefault(c => c.Id == id);
 
             var clientForm = new ClientForm();
             clientForm.Id = client.Id;
             clientForm.Name = client.Name;
             clientForm.INN = client.INN;
             clientForm.KPP = client.KPP;
-            clientForm.PropertyTypes = _propertyTypeRepository.Query().ToList();
-            clientForm.Cities = _cityRepository.Query().ToList();
-            clientForm.Countries = _countryRepository.Query().ToList();
-            clientForm.Industries = _industryRepository.Query().ToList();
+            clientForm.PropertyTypeId = client.PropertyType.Id;
+            clientForm.IndustryId = client.Industry.Id;
+            clientForm.CityId = client.City.Id;
+            clientForm.CountryId = client.Country.Id;
+            IncludeLists(clientForm);
 
             return clientForm;
         }
 
         public void Create(ClientForm model)
         {
-            // Validation
-
             var client = ConvertFromClientFormToClient(model);
+            client.Country = _countryRepository.Query().FirstOrDefault(c => c.Id == client.City.CountryId);
             client.DateOfCreation = DateTime.Now;
             client.DateOfChange = DateTime.Now;
 
@@ -85,9 +102,8 @@ namespace ClientBase.Core.Services
 
         public void Update(ClientForm model)
         {
-            // Validation
-
             var client = ConvertFromClientFormToClient(model);
+            client.Country = _countryRepository.Query().FirstOrDefault(c => c.Id == client.City.CountryId);
             client.DateOfChange = DateTime.Now;
 
             _clientRepository.Update(client);
@@ -98,6 +114,14 @@ namespace ClientBase.Core.Services
         {
             _clientRepository.Delete(id);
             _clientRepository.SaveChanges();
+        }
+
+        public void IncludeLists(ClientForm clientForm)
+        {
+            clientForm.PropertyTypes = _propertyTypeRepository.Query().ToList();
+            clientForm.Cities = _cityRepository.Query().ToList();
+            clientForm.Countries = _countryRepository.Query().ToList();
+            clientForm.Industries = _industryRepository.Query().ToList();
         }
 
         private ClientViewModel ConvertToClientViewModel(Client model)
@@ -129,7 +153,6 @@ namespace ClientBase.Core.Services
                 KPP = model.KPP,
                 PropertyType = _propertyTypeRepository.Get(model.PropertyTypeId),
                 City = _cityRepository.Get(model.CityId),
-                Country = _countryRepository.Get(model.CountryId),
                 Industry = _industryRepository.Get(model.IndustryId)
             };
 

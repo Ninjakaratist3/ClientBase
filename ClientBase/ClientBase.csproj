@@ -17,5 +17,9 @@
     <ProjectReference Include="..\ClientBase.Core\ClientBase.Core.csproj" />
     <ProjectReference Include="..\ClientBase.Infrastructure\ClientBase.Infrastructure.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
 
 </Project>

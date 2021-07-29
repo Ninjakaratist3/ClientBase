@@ -1,3 +1,40 @@
 ﻿@model ClientViewModel
 
-@Model.Name
+<div class="pt-3 ">
+    <div class="row">
+        <div class="col-12 pb-3" style="font-size: 28px;">
+            @Model.Name
+        </div>
+        <div class="col-6">
+            <div>
+                <b>Название: </b>@Model.Name
+            </div>
+            <div>
+                <b>ИНН: </b>@Model.INN
+            </div>
+            <div>
+                <b>КПП: </b>@Model.KPP
+            </div>
+            <div>
+                <b>Тип собственности: </b>@Model.PropertyType.Name
+            </div>
+            <div>
+                <b>Отрасль: </b>@Model.Industry.Name
+            </div>
+        </div>
+        <div class="col-6">
+            <div>
+                <b>Город: </b>@Model.City.Name
+            </div>
+            <div>
+                <b>Страна: </b>@Model.Country.Name
+            </div>
+            <div>
+                <b>Дата создания: </b>@Model.DateOfCreation.ToString("dd.MM.yyyy HH:mm:ss")
+            </div>
+            <div>
+                <b>Дата обновления: </b>@Model.DateOfChange.ToString("dd.MM.yyyy HH:mm:ss")
+            </div>
+        </div>
+    </div>
+</div>

@@ -45,7 +45,7 @@ namespace ClientBase.Core.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return View(model);
             }
 
             _industryService.Create(model);
@@ -67,7 +67,7 @@ namespace ClientBase.Core.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return View(model);
             }
 
             _industryService.Update(model);
@@ -80,7 +80,7 @@ namespace ClientBase.Core.Controllers
         {
             if (id <= 0)
             {
-                return BadRequest();
+                return View();
             }
 
             _industryService.Delete(id);

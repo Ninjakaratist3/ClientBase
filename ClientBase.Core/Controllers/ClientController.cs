@@ -36,13 +36,13 @@ namespace ClientBase.Core.Controllers
             return View(clientForm);
         }
 
-        [ValidateAntiForgeryToken]
         [HttpPost("create")]
         public IActionResult Create(ClientForm model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                _clientService.IncludeLists(model);
+                return View(model);
             }
 
             _clientService.Create(model);
@@ -64,7 +64,8 @@ namespace ClientBase.Core.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                _clientService.IncludeLists(model);
+                return View(model);
             }
 
             _clientService.Update(model);
@@ -77,7 +78,7 @@ namespace ClientBase.Core.Controllers
         {
             if (id <= 0)
             {
-                return BadRequest();
+                return View();
             }
 
             _clientService.Delete(id);

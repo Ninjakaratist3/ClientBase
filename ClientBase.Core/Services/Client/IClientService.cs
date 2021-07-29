@@ -13,5 +13,6 @@ namespace ClientBase.Core.Services
         public void Create(ClientForm model);
         public void Update(ClientForm model);
         public void Delete(long id);
+        public void IncludeLists(ClientForm clientForm);
     }
 }

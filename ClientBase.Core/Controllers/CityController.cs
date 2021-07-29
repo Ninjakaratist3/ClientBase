@@ -43,7 +43,8 @@ namespace CityBase.Core.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                _cityService.IncludeLists(model);
+                return View(model);
             }
 
             _cityService.Create(model);
@@ -65,7 +66,8 @@ namespace CityBase.Core.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                _cityService.IncludeLists(model);
+                return View(model);
             }
 
             _cityService.Update(model);
@@ -78,7 +80,7 @@ namespace CityBase.Core.Controllers
         {
             if (id <= 0)
             {
-                return BadRequest();
+                return View();
             }
 
             _cityService.Delete(id);

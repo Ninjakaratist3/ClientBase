@@ -1,17 +1,29 @@
 ﻿@model IEnumerable<CountryViewModel>
 
-<h2>Список стран</h2>
-<div>
-    <a href="/country/create">Создать</a>
+
+<div class="d-flex justify-content-between align-items-center">
+    <h2>Список стран</h2>
+    <a href="/country/create" class="btn btn-primary">Создать</a>
 </div>
-<div>
-    @foreach (var country in Model)
-    {
-        <div>
-            <input type="hidden" class="country-id" value="@country.Id" />
-            <a href="/country/@country.Id">@country.Name</a>
-            <a href="/country/edit/@country.Id">Редактировать</a>
-            <button class="country-delete">Удалить</button>
-        </div>
-    }
+<div class="mt-4">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Редактировать</th>
+                <th scope="col">Удалить</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var country in Model)
+            {
+                <tr>
+                    <th class="country-id" style="display: none">@country.Id</th>
+                    <td><a href="/country/@country.Id">@country.Name</a></td>
+                    <td><a href="/country/edit/@country.Id" class="btn btn-primary p-1">Редактировать</a></td>
+                    <td><button class="country-delete btn btn-danger p-1">Удалить</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

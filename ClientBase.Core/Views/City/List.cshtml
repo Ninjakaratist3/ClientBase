@@ -1,17 +1,31 @@
 ﻿@model IEnumerable<CityViewModel>
 
-<h2>Список городов</h2>
-<div>
-    <a href="/city/create">Создать</a>
+
+<div class="d-flex justify-content-between align-items-center">
+    <h2>Список городов</h2>
+    <a href="/city/create" class="btn btn-primary">Создать</a>
 </div>
-<div>
-    @foreach (var city in Model)
-    {
-        <div>
-            <input type="hidden" class="city-id" value="@city.Id" />
-            <a href="/city/@city.Id">@city.Name</a>
-            <a href="/city/edit/@city.Id">Редактировать</a>
-            <button class="city-delete">Удалить</button>
-        </div>
-    }
+<div class="mt-4">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Страна</th>
+                <th scope="col">Редактировать</th>
+                <th scope="col">Удалить</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var city in Model)
+            {
+                <tr>
+                    <th class="city-id" style="display: none">@city.Id</th>
+                    <td><a href="/city/@city.Id">@city.Name</a></td>
+                    <td>@city.Country.Name</td>
+                    <td><a href="/city/edit/@city.Id" class="btn btn-primary p-1">Редактировать</td>
+                    <td><button class="city-delete btn btn-danger p-1">Удалить</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

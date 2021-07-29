@@ -1,17 +1,29 @@
 ﻿@model IEnumerable<IndustryViewModel>
 
-<h2>Список отраслей</h2>
-<div>
-    <a href="/industry/create">Создать</a>
+
+<div class="d-flex justify-content-between align-items-center">
+    <h2>Список отраслей</h2>
+    <a href="/industry/create" class="btn btn-primary">Создать</a>
 </div>
-<div>
-    @foreach (var industry in Model)
-    {
-        <div>
-            <input type="hidden" class="industry-id" value="@industry.Id" />
-            <a href="/industry/@industry.Id">@industry.Name</a>
-            <a href="/industry/edit/@industry.Id">Редактировать</a>
-            <button class="industry-delete">Удалить</button>
-        </div>
-    }
+<div class="mt-4">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Редактировать</th>
+                <th scope="col">Удалить</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var industry in Model)
+            {
+                <tr>
+                    <th class="industry-id" style="display: none">@industry.Id</th>
+                    <td><a href="/industry/@industry.Id">@industry.Name</a></td>
+                    <td><a href="/industry/edit/@industry.Id" class="btn btn-primary p-1">Редактировать</a></td>
+                    <td><button class="industry-delete btn btn-danger p-1">Удалить</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

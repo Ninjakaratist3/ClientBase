@@ -1,17 +1,40 @@
 ﻿@model IEnumerable<ClientViewModel>
 
-<h2>Список клиентов</h2>
-<div>
-    <a href="/client/create">Создать</a>
+<div class="d-flex justify-content-between align-items-center">
+    <h2>Список клиентов</h2>
+    <a href="/client/create" class="btn btn-primary">Создать</a>
 </div>
-<div>
-    @foreach (var client in Model)
-    {
-        <div>
-            <input type="hidden" class="client-id" value="@client.Id" />
-            <a href="/client/@client.Id">@client.Name</a>
-            <a href="/client/edit/@client.Id">Редактировать</a>
-            <button class="client-delete">Удалить</button>
-        </div>
-    }
+<div class="mt-4">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">ИНН</th>
+                <th scope="col">КПП</th>
+                <th scope="col">Тип собственности</th>
+                <th scope="col">Город</th>
+                <th scope="col">Страна</th>
+                <th scope="col">Отрасль</th>
+                <th scope="col">Редактировать</th>
+                <th scope="col">Удалить</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var client in Model)
+            {
+                <tr>
+                    <th class="client-id" style="display: none">@client.Id</th>
+                    <td><a href="/client/@client.Id">@client.Name</a></td>
+                    <td>@client.INN</td>
+                    <td>@client.KPP</td>
+                    <td>@client.PropertyType.Name</td>
+                    <td>@client.City.Name</td>
+                    <td>@client.Country.Name</td>
+                    <td>@client.Industry.Name</td>
+                    <td><a href="/client/edit/@client.Id" class="btn btn-primary p-1">Редактировать</a></td>
+                    <td><button class="client-delete btn btn-danger p-1">Удалить</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

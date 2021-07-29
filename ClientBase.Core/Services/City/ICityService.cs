@@ -13,5 +13,6 @@ namespace ClientBase.Core.Services
         public void Create(CityForm model);
         public void Update(CityForm model);
         public void Delete(long id);
+        public void IncludeLists(CityForm clientForm);
     }
 }

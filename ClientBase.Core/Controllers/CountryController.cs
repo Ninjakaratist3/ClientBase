@@ -41,7 +41,7 @@ namespace CountryBase.Core.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return View(model);
             }
 
             _countryService.Create(model);
@@ -63,7 +63,7 @@ namespace CountryBase.Core.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return View(model);
             }
 
             _countryService.Update(model);
@@ -76,7 +76,7 @@ namespace CountryBase.Core.Controllers
         {
             if (id <= 0)
             {
-                return BadRequest();
+                return View();
             }
 
             _countryService.Delete(id);

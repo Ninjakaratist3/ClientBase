@@ -35,7 +35,7 @@ namespace ClientBase.Core.Services
         public CityForm GetCityForm()
         {
             var cityForm = new CityForm();
-            cityForm.Countries = _countryRepository.Query().ToList();
+            IncludeLists(cityForm);
 
             return cityForm;
         }
@@ -47,15 +47,14 @@ namespace ClientBase.Core.Services
             var cityForm = new CityForm();
             cityForm.Id = city.Id;
             cityForm.Name = city.Name;
-            cityForm.Countries = _countryRepository.Query().ToList();
+            cityForm.CountryId = city.CountryId;
+            IncludeLists(cityForm);
 
             return cityForm;
         }
 
         public void Create(CityForm model)
         {
-            // Validation
-
             var city = ConvertFromCityFormToCity(model);
             city.DateOfCreation = DateTime.Now;
             city.DateOfChange = DateTime.Now;
@@ -66,8 +65,6 @@ namespace ClientBase.Core.Services
 
         public void Update(CityForm model)
         {
-            // Validation
-
             var city = ConvertFromCityFormToCity(model);
             city.DateOfChange = DateTime.Now;
 
@@ -79,6 +76,11 @@ namespace ClientBase.Core.Services
         {
             _cityRepository.Delete(id);
             _cityRepository.SaveChanges();
+        }
+
+        public void IncludeLists(CityForm cityForm)
+        {
+            cityForm.Countries = _countryRepository.Query().ToList();
         }
 
         private CityViewModel ConvertToCityViewModel(City model)

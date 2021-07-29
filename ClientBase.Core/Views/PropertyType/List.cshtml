@@ -1,17 +1,29 @@
 ﻿@model IEnumerable<PropertyTypeViewModel>
 
-<h2>Список типов собственности</h2>
-<div>
-    <a href="/property-type/create">Создать</a>
+
+<div class="d-flex justify-content-between align-items-center">
+    <h2>Список типов собственности</h2>
+    <a href="/property-type/create" class="btn btn-primary">Создать</a>
 </div>
-<div>
-    @foreach (var propertyType in Model)
-    {
-        <div>
-            <input type="hidden" class="property-type-id" value="@propertyType.Id" />
-            <a href="/property-type/@propertyType.Id">@propertyType.Name</a>
-            <a href="/property-type/edit/@propertyType.Id">Редактировать</a>
-            <button class="property-type-delete">Удалить</button>
-        </div>
-    }
+<div class="mt-4">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Редактировать</th>
+                <th scope="col">Удалить</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var propertyType in Model)
+            {
+                <tr>
+                    <th class="property-type-id" style="display: none">@propertyType.Id</th>
+                    <td><a href="/property-type/@propertyType.Id">@propertyType.Name</a></td>
+                    <td><a href="/property-type/edit/@propertyType.Id" class="btn btn-primary p-1">Редактировать</a></td>
+                    <td><button class="property-type-delete btn btn-danger p-1">Удалить</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

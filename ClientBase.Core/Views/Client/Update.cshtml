@@ -7,21 +7,21 @@
             <div class="form-group">
                 <label asp-for="Name" class="col-md-12 col-form-label px-0">Название</label>
                 <div class="col-md-12 px-0">
-                    <input asp-for="Name" required class="form-control" />
+                    <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group">
                 <label asp-for="INN" class="col-md-12 col-form-label px-0">ИНН</label>
                 <div class="col-md-12 px-0">
-                    <input asp-for="INN" required class="form-control" />
+                    <input asp-for="INN" class="form-control" />
                     <span asp-validation-for="INN" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group">
                 <label asp-for="KPP" class="col-md-12 col-form-label px-0">КПП</label>
                 <div class="col-md-12 px-0">
-                    <input asp-for="KPP" required class="form-control" />
+                    <input asp-for="KPP" class="form-control" />
                     <span asp-validation-for="KPP" class="text-danger"></span>
                 </div>
             </div>
@@ -50,18 +50,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="CountryId" class="col-md-12 col-form-label px-0">Страна</label>
-                <div class="col-md-12 px-0">
-                    <select asp-for="CountryId" class="form-control">
-                        @foreach (var country in Model.Countries)
-                        {
-                            <option value="@country.Id">@country.Name</option>
-                        }
-                    </select>
-                    <span asp-validation-for="CountryId" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
                 <label asp-for="IndustryId" class="col-md-12 col-form-label px-0">Отрасль</label>
                 <div class="col-md-12 px-0">
                     <select asp-for="IndustryId" class="form-control">
@@ -74,7 +62,7 @@
                 </div>
             </div>
             <div class="d-flex">
-                <button class="button px-4 mr-3" type="submit">Изменить</button>
+                <button class="button button-client-update px-4 mr-3" type="submit">Изменить</button>
                 <a href="/clients" class="pt-2 d-inline-block">Отмена</a>
             </div>
         </form>
