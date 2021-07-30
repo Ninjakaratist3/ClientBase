@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<CityViewModel>
-
+@{
+    ViewData["Title"] = "Список городов";
+}
 
 <div class="d-flex justify-content-between align-items-center">
     <h2>Список городов</h2>
@@ -15,13 +17,16 @@
                 <th scope="col">Удалить</th>
             </tr>
         </thead>
-        <tbody>
+        <tr style="display: block !important;max-width: 200px">
+            <td scope="col" style="border-top: 0px;"><input type="text" class="form-control city-name-search" style="max-width: 200px;" /></td>
+        </tr>
+        <tbody class="cities-list">
             @foreach (var city in Model)
             {
-                <tr>
+                <tr class="city-@city.Id" title="@city.Name">
                     <th class="city-id" style="display: none">@city.Id</th>
                     <td><a href="/city/@city.Id">@city.Name</a></td>
-                    <td>@city.Country.Name</td>
+                    <td>@city.Country?.Name</td>
                     <td><a href="/city/edit/@city.Id" class="btn btn-primary p-1">Редактировать</td>
                     <td><button class="city-delete btn btn-danger p-1">Удалить</button></td>
                 </tr>

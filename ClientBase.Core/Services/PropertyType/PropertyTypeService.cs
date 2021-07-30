@@ -1,6 +1,7 @@
 ﻿using ClientBase.Core.Models;
 using ClientBase.Core.ViewModels;
 using ClientBase.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,12 @@ namespace ClientBase.Core.Services
     public class PropertyTypeService : IPropertyTypeService
     {
         private readonly IRepository<PropertyType> _propertyTypeRepository;
+        private readonly IRepository<Client> _clientRepository;
 
-        public PropertyTypeService(IRepository<PropertyType> propertyTypeRepository)
+        public PropertyTypeService(IRepository<PropertyType> propertyTypeRepository, IRepository<Client> clientRepository)
         {
             _propertyTypeRepository = propertyTypeRepository;
+            _clientRepository = clientRepository;
         }
 
         public PropertyType Get(long id)
@@ -60,6 +63,14 @@ namespace ClientBase.Core.Services
 
         public void Delete(long id)
         {
+            var clients = _clientRepository.Query().Include(c => c.PropertyType).Where(c => c.PropertyType.Id == id).ToList();
+
+            foreach (var client in clients)
+            {
+                client.PropertyType = null;
+            }
+            _clientRepository.SaveChanges();
+
             _propertyTypeRepository.Delete(id);
              _propertyTypeRepository.SaveChanges();
         }

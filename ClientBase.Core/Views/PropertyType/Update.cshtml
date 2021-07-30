@@ -1,8 +1,10 @@
 ﻿@model ClientBase.Core.Models.PropertyType
-
+@{ 
+    ViewData["Title"] = "Редактирование данных о типе собственности";
+}
 <div class="justify-content-center py-5">
     <div style="max-width: 800px;">
-        <h3>Редактирование данных о клиенте</h3>
+        <h3>Редактирование данных о типе собственности</h3>
         <form id="property-type-form" asp-controller="PropertyType" asp-action="Update">
             <div class="form-group">
                 <label asp-for="Name" class="col-md-12 col-form-label px-0">Название</label>

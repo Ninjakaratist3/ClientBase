@@ -54,4 +54,55 @@
                 }
             );
     });
+    $('.client-name-search').keyup(async function () {
+        var searchQuery = $(this).val();
+
+        $('.clients-list').children('tr').each(function (i, element) {
+            DefinitionListItemVisibility(element, searchQuery);
+        });
+    });
+    $('.city-name-search').keyup(async function () {
+        var searchQuery = $(this).val();
+
+        $('.cities-list').children('tr').each(function (i, element) {
+            DefinitionListItemVisibility(element, searchQuery);
+        });
+    });
+    $('.country-name-search').keyup(async function () {
+        var searchQuery = $(this).val();
+
+        $('.countries-list').children('tr').each(function (i, element) {
+            DefinitionListItemVisibility(element, searchQuery);
+        });
+    });
+    $('.property-type-name-search').keyup(async function () {
+        var searchQuery = $(this).val();
+
+        $('.property-types-list').children('tr').each(function (i, element) {
+            DefinitionListItemVisibility(element, searchQuery);
+        });
+    });
+    $('.industry-name-search').keyup(async function () {
+        var searchQuery = $(this).val();
+
+        $('.industries-list').children('tr').each(function (i, element) {
+            DefinitionListItemVisibility(element, searchQuery);
+        });
+    });
+
+    function isEmptyOrSpaces(str) {
+        return str === null || str.match(/^ *$/) !== null;
+    }
+
+    function DefinitionListItemVisibility(element, searchQuery) {
+        if (searchQuery.length == 0 || isEmptyOrSpaces(searchQuery)) {
+            element.style.visibility = "visible";
+        }
+        else if (!element.title.toLowerCase().startsWith(searchQuery.toLowerCase())) {
+            element.style.visibility = "collapse";
+        }
+        else {
+            element.style.visibility = "visible";
+        }
+    }
 });

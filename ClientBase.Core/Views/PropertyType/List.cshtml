@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<PropertyTypeViewModel>
-
+@{
+    ViewData["Title"] = "Список типов собственности";
+}
 
 <div class="d-flex justify-content-between align-items-center">
     <h2>Список типов собственности</h2>
@@ -14,10 +16,13 @@
                 <th scope="col">Удалить</th>
             </tr>
         </thead>
-        <tbody>
+        <tr style="display: block !important;max-width: 200px">
+            <td scope="col" style="border-top: 0px;"><input type="text" class="form-control property-type-name-search" style="max-width: 200px;" /></td>
+        </tr>
+        <tbody class="property-types-list">
             @foreach (var propertyType in Model)
             {
-                <tr>
+                <tr class="property-type-@propertyType.Id" title="@propertyType.Name">
                     <th class="property-type-id" style="display: none">@propertyType.Id</th>
                     <td><a href="/property-type/@propertyType.Id">@propertyType.Name</a></td>
                     <td><a href="/property-type/edit/@propertyType.Id" class="btn btn-primary p-1">Редактировать</a></td>

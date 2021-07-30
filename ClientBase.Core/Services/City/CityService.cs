@@ -1,6 +1,7 @@
 ﻿using ClientBase.Core.Models;
 using ClientBase.Core.ViewModels;
 using ClientBase.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,15 @@ namespace ClientBase.Core.Services
     {
         private readonly IRepository<City> _cityRepository;
         private readonly IRepository<Country> _countryRepository;
+        private readonly IRepository<Client> _clientRepository;
 
-        public CityService(IRepository<City> cityRepository, IRepository<Country> countryRepository)
+        public CityService(IRepository<City> cityRepository, 
+            IRepository<Country> countryRepository,
+            IRepository<Client> clientRepository)
         {
             _cityRepository = cityRepository;
             _countryRepository = countryRepository;
+            _clientRepository = clientRepository;
         }
 
         public CityViewModel Get(long id)
@@ -74,6 +79,14 @@ namespace ClientBase.Core.Services
 
         public void Delete(long id)
         {
+            var clients = _clientRepository.Query().Include(c => c.City).Where(c => c.City.Id == id).ToList();
+
+            foreach (var client in clients)
+            {
+                client.City = null;
+            }
+            _clientRepository.SaveChanges();
+
             _cityRepository.Delete(id);
             _cityRepository.SaveChanges();
         }

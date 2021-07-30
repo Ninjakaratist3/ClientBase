@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<IndustryViewModel>
-
+@{
+    ViewData["Title"] = "Список отраслей";
+}
 
 <div class="d-flex justify-content-between align-items-center">
     <h2>Список отраслей</h2>
@@ -14,10 +16,13 @@
                 <th scope="col">Удалить</th>
             </tr>
         </thead>
-        <tbody>
+        <tr style="display: block !important;max-width: 200px">
+            <td scope="col" style="border-top: 0px;"><input type="text" class="form-control industry-name-search" style="max-width: 200px;" /></td>
+        </tr>
+        <tbody class="industries-list">
             @foreach (var industry in Model)
             {
-                <tr>
+                <tr class="industry-@industry.Id" title="@industry.Name">
                     <th class="industry-id" style="display: none">@industry.Id</th>
                     <td><a href="/industry/@industry.Id">@industry.Name</a></td>
                     <td><a href="/industry/edit/@industry.Id" class="btn btn-primary p-1">Редактировать</a></td>

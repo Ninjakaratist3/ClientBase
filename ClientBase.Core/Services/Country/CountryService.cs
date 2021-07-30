@@ -1,6 +1,7 @@
 ﻿using ClientBase.Core.Models;
 using ClientBase.Core.ViewModels;
 using ClientBase.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,12 @@ namespace ClientBase.Core.Services
     public class CountryService : ICountryService
     {
         private readonly IRepository<Country> _countryRepository;
+        private readonly IRepository<Client> _clientRepository;
 
-        public CountryService(IRepository<Country> countryRepository)
+        public CountryService(IRepository<Country> countryRepository, IRepository<Client> clientRepository)
         {
             _countryRepository = countryRepository;
+            _clientRepository = clientRepository;
         }
 
         public Country Get(long id)
@@ -60,6 +63,14 @@ namespace ClientBase.Core.Services
 
         public void Delete(long id)
         {
+            var clients = _clientRepository.Query().Include(c => c.Country).Where(c => c.Country.Id == id).ToList();
+
+            foreach (var client in clients)
+            {
+                client.Country = null;
+            }
+            _clientRepository.SaveChanges();
+
             _countryRepository.Delete(id);
             _countryRepository.SaveChanges();
         }

@@ -1,21 +1,24 @@
 ﻿@model ClientBase.Core.Models.Industry
+@{
+    ViewData["Title"] = "Добавление отрасли";
+}
 
 <div class="justify-content-center py-5">
-<div style="max-width: 800px;">
-    <h3>Добавление отрасль</h3>
-    <form id="industry-form" asp-controller="Industry" asp-action="Create">
-        <div class="form-group">
-            <label asp-for="Name" class="col-md-12 col-form-label px-0">Название</label>
-            <div class="col-md-12 px-0">
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+    <div style="max-width: 800px;">
+        <h3>Добавление отрасли</h3>
+        <form id="industry-form" asp-controller="Industry" asp-action="Create">
+            <div class="form-group">
+                <label asp-for="Name" class="col-md-12 col-form-label px-0">Название</label>
+                <div class="col-md-12 px-0">
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="d-flex">
-            <button class="button px-4 mr-3" type="submit">Создать</button>
-            <a href="/industries" class="pt-2 d-inline-block">Отмена</a>
-        </div>
-    </form>
-</div>
+            <div class="d-flex">
+                <button class="button px-4 mr-3" type="submit">Создать</button>
+                <a href="/industries" class="pt-2 d-inline-block">Отмена</a>
+            </div>
+        </form>
+    </div>
 
 </div>

@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<CountryViewModel>
-
+@{
+    ViewData["Title"] = "Список стран";
+}
 
 <div class="d-flex justify-content-between align-items-center">
     <h2>Список стран</h2>
@@ -14,10 +16,13 @@
                 <th scope="col">Удалить</th>
             </tr>
         </thead>
-        <tbody>
+        <tr style="display: block !important;max-width: 200px">
+            <td scope="col" style="border-top: 0px;"><input type="text" class="form-control country-name-search" style="max-width: 200px;" /></td>
+        </tr>
+        <tbody class="countries-list">
             @foreach (var country in Model)
             {
-                <tr>
+                <tr class="country-@country.Id" title="@country.Name">
                     <th class="country-id" style="display: none">@country.Id</th>
                     <td><a href="/country/@country.Id">@country.Name</a></td>
                     <td><a href="/country/edit/@country.Id" class="btn btn-primary p-1">Редактировать</a></td>

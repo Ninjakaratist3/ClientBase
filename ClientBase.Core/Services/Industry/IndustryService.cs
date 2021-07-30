@@ -1,6 +1,7 @@
 ﻿using ClientBase.Core.Models;
 using ClientBase.Core.ViewModels;
 using ClientBase.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,12 @@ namespace ClientBase.Core.Services
     public class IndustryService : IIndustryService
     {
         private readonly IRepository<Industry> _industryRepository;
+        private readonly IRepository<Client> _clientRepository;
 
-        public IndustryService(IRepository<Industry> industryRepository)
+        public IndustryService(IRepository<Industry> industryRepository, IRepository<Client> clientRepository)
         {
             _industryRepository = industryRepository;
+            _clientRepository = clientRepository;
         }
 
         public Industry Get(long id)
@@ -39,8 +42,6 @@ namespace ClientBase.Core.Services
 
         public void Create(Industry model)
         {
-            // Validation
-
             model.DateOfCreation = DateTime.Now;
             model.DateOfChange = DateTime.Now;
 
@@ -50,8 +51,6 @@ namespace ClientBase.Core.Services
 
         public void Update(Industry model)
         {
-            // Validation
-
             model.DateOfChange = DateTime.Now;
 
             _industryRepository.Update(model);
@@ -60,6 +59,14 @@ namespace ClientBase.Core.Services
 
         public void Delete(long id)
         {
+            var clients = _clientRepository.Query().Include(c => c.Industry).Where(c => c.Industry.Id == id).ToList();
+
+            foreach (var client in clients)
+            {
+                client.Industry = null;
+            }
+            _clientRepository.SaveChanges();
+
             _industryRepository.Delete(id);
             _industryRepository.SaveChanges();
         }

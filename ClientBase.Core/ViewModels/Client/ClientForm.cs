@@ -27,22 +27,21 @@ namespace ClientBase.Core.ViewModels
 
         public IList<PropertyType> PropertyTypes { get; set; } = new List<PropertyType>();
 
-        [Required(ErrorMessage = "Поле \"Тип собственности\" обязательное")]
+        [Range(1, long.MaxValue, ErrorMessage = "Поле \"Тип собственности\" обязательное")]
         public long PropertyTypeId { get; set; }
 
         public IList<City> Cities { get; set; } = new List<City>();
 
-        [Required(ErrorMessage = "Поле \"Город\" обязательное")]
+        [Range(1, long.MaxValue, ErrorMessage = "Поле \"Город\" обязательное")]
         public long CityId { get; set; }
 
         public IList<Country> Countries { get; set; } = new List<Country>();
 
-        [Required(ErrorMessage = "Поле \"Страна\" обязательное")]
         public long CountryId { get; set; }
 
         public IList<Industry> Industries { get; set; } = new List<Industry>();
 
-        [Required(ErrorMessage = "Поле \"Отрасль\" обязательное")]
+        [Range(1, long.MaxValue, ErrorMessage = "Поле \"Отрасль\" обязательное")]
         public long IndustryId { get; set; }
     }
 }

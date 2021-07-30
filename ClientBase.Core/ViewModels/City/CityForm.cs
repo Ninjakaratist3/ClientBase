@@ -13,7 +13,7 @@ namespace ClientBase.Core.ViewModels
 
         public IList<Country> Countries { get; set; } = new List<Country>();
 
-        [Required(ErrorMessage = "Поле \"Страна\" обязательное")]
+        [Range(1, long.MaxValue, ErrorMessage = "Поле \"Страна\" обязательное")]
         public long CountryId { get; set; }
     }
 }

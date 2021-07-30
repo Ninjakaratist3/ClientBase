@@ -1,9 +1,12 @@
 ﻿@model IndustryViewModel
+@{
+    ViewData["Title"] = Model.Name;
+}
 
 <div class="pt-3 ">
     <div class="row">
         <div class="col-12 pb-3" style="font-size: 28px;">
-            @Model.Name
+            Отрасль: @Model.Name
         </div>
         <div class="col-12">
             <div>
